@@ -1,0 +1,7 @@
+<component name="CopyrightManager">
+  <copyright>
+    <option name="allowReplaceRegexp" value="upi.customer" />
+    <option name="notice" value="----------------------------------------------------------------------------&#10;&#10;    This file is part of the e-edu project.&#10;    @Author RB Mhetre&#10;    @Generated &amp;#36;originalComment.match(&quot;Copyright \(c\) (\d+)&quot;, 1, &quot;-&quot;, &quot;&amp;#36;today.year&quot;)&amp;#36;today.year&#10;     @since &amp;#36;{LAST_MODIFIED}&#10;    &#10;    ----------------------------------------------------------------------------" />
+    <option name="myName" value="upi.customer" />
+  </copyright>
+</component>
