@@ -1,0 +1,1 @@
+DELETE FROM TRAINERS t WHERE t.trainer_id = 22;

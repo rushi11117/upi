@@ -1,0 +1,24 @@
+2023-01-06 21:04:14 INFO - Oracle SQL Developer Data Modeler 21.2.0.165.1515
+2023-10-06 19:56:31 INFO - Oracle SQL Developer Data Modeler 21.2.0.165.1515
+2023-10-07 10:15:14 INFO - Oracle SQL Developer Data Modeler 21.2.0.165.1515
+2023-10-08 16:22:07 INFO - Oracle SQL Developer Data Modeler 21.2.0.165.1515
+2023-10-11 22:15:55 INFO - Oracle SQL Developer Data Modeler 21.2.0.165.1515
+2023-10-12 10:10:25 INFO - Oracle SQL Developer Data Modeler 21.2.0.165.1515
+2023-10-17 15:16:32 INFO - Oracle SQL Developer Data Modeler 21.2.0.165.1515
+2023-10-17 23:18:22 SEVERE - Can not write document to file: C:\Program Files\sqldeveloper-21.2.1.204.1703-x64\sqldeveloper\sqldeveloper\extensions\oracle.datamodeler\types\defaultdomains.xml
+java.io.FileNotFoundException: C:\Program Files\sqldeveloper-21.2.1.204.1703-x64\sqldeveloper\sqldeveloper\extensions\oracle.datamodeler\types\defaultdomains.xml (Access is denied)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:162)
+	at oracle.dbtools.crest.model.metadata.XMLTransformationManager.saveContentOfObject(XMLTransformationManager.java:4187)
+	at oracle.dbtools.crest.model.metadata.XMLTransformationManager.saveDefaultDomain(XMLTransformationManager.java:4491)
+	at oracle.dbtools.crest.model.metadata.XMLTransformationManager.saveDomains(XMLTransformationManager.java:4423)
+	at oracle.dbtools.crest.model.metadata.XMLTransformationManager.saveDesign(XMLTransformationManager.java:306)
+	at oracle.dbtools.crest.model.design.Design.saveAll(Design.java:2424)
+	at oracle.dbtools.crest.swingui.ControllerApplication.saveAll(ControllerApplication.java:4148)
+	at oracle.dbtools.crest.swingui.ControllerApplication.saveAsDesign(ControllerApplication.java:3880)
+	at oracle.dbtools.crest.swingui.ControllerApplication.access$6000(ControllerApplication.java:127)
+	at oracle.dbtools.crest.swingui.ControllerApplication$SaveAs$1.run(ControllerApplication.java:3739)
+2023-10-18 19:20:11 INFO - Oracle SQL Developer Data Modeler 21.2.0.165.1515
+2023-10-18 20:41:28 INFO - Oracle SQL Developer Data Modeler 21.2.0.165.1515

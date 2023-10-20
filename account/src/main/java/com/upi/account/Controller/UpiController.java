@@ -4,6 +4,17 @@
  *     This file is part of the e-edu project.
  *     @Author RB Mhetre
  *     @Generated 2023
+ *      @since ${LAST_MODIFIED}
+ *
+ *     ----------------------------------------------------------------------------
+ */
+
+/*
+ * ----------------------------------------------------------------------------
+ *
+ *     This file is part of the e-edu project.
+ *     @Author RB Mhetre
+ *     @Generated 2023
  *
  *     ----------------------------------------------------------------------------
  */
@@ -43,6 +54,8 @@ public class UpiController {
      * Generate upi id.
      *
      * @param customerRequestDto the customer request dto
+     *
+     * @throws UpiAlreadyExistsException the upi already exists exception
      */
     @GetMapping("/new")
     public void generateUpiId(@RequestBody CustomerRequestDto customerRequestDto) throws UpiAlreadyExistsException {

@@ -4,6 +4,17 @@
  *     This file is part of the e-edu project.
  *     @Author RB Mhetre
  *     @Generated 2023
+ *      @since ${LAST_MODIFIED}
+ *
+ *     ----------------------------------------------------------------------------
+ */
+
+/*
+ * ----------------------------------------------------------------------------
+ *
+ *     This file is part of the e-edu project.
+ *     @Author RB Mhetre
+ *     @Generated 2023
  *
  *     ----------------------------------------------------------------------------
  */
@@ -46,15 +57,19 @@ public class Customer {
     private Long id;
 
     @OneToMany(mappedBy = "upi_of_customer", cascade = CascadeType.ALL)
-//    @Column(name = "upi_of_customer")
     private List<Upi> added_upi;
 
     @Column(name = "customer_name")
     private String customer_name;
 
-
     @Column(name = "customer_email")
     private String customer_email;
+
+    @Column(name = "customer_phone_number")
+    private String phoneNumber;
+
+    @Column(name = "customer_date_of_birth")
+    private Date dateOfBirth;
 
     @Column(name = "customer_address")
     private String customer_address;

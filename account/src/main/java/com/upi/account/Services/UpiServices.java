@@ -4,6 +4,17 @@
  *     This file is part of the e-edu project.
  *     @Author RB Mhetre
  *     @Generated 2023
+ *      @since ${LAST_MODIFIED}
+ *
+ *     ----------------------------------------------------------------------------
+ */
+
+/*
+ * ----------------------------------------------------------------------------
+ *
+ *     This file is part of the e-edu project.
+ *     @Author RB Mhetre
+ *     @Generated 2023
  *
  *     ----------------------------------------------------------------------------
  */
@@ -86,6 +97,7 @@ public class UpiServices {
      * @param customerRequestDto the customer request dto
      *
      * @return the string
+     * @throws UpiAlreadyExistsException the upi already exists exception
      */
     @Transactional
     public void generateNewUpiId(CustomerRequestDto customerRequestDto) throws UpiAlreadyExistsException {

@@ -11,6 +11,17 @@
  *     ----------------------------------------------------------------------------
  */
 
+/*
+ * ----------------------------------------------------------------------------
+ *
+ *     This file is part of the e-edu project.
+ *     @Author RB Mhetre
+ *     @Generated 2023
+ *      @since ${LAST_MODIFIED}
+ *
+ *     ----------------------------------------------------------------------------
+ */
+
 package com.upi.account.Services;
 
 import com.upi.account.Entity.Customer;
@@ -103,6 +114,13 @@ public class CustomerService {
         return customer != null;
     }
 
+    /**
+     * Find customer by email customer.
+     *
+     * @param customerEmail the customer email
+     *
+     * @return the customer
+     */
     public Customer findCustomerByEmail(String customerEmail) {
         return customerRepository.findByEmail(customerEmail);
     }

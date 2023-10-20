@@ -4,16 +4,7 @@
  *     This file is part of the e-edu project.
  *     @Author RB Mhetre
  *     @Generated 2023
- *
- *     ----------------------------------------------------------------------------
- */
-
-/*
- * ----------------------------------------------------------------------------
- *
- *     This file is part of the e-edu project.
- *     @Author RB Mhetre
- *     @Generated 2023
+ *      @since ${LAST_MODIFIED}
  *
  *     ----------------------------------------------------------------------------
  */
@@ -44,7 +35,6 @@ public class Upi {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    @NotNull
     private Long id;
 
     @Column(name = "upi_id")

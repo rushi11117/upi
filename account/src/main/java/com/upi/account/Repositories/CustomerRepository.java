@@ -4,19 +4,11 @@
  *     This file is part of the e-edu project.
  *     @Author RB Mhetre
  *     @Generated 2023
+ *      @since ${LAST_MODIFIED}
  *
  *     ----------------------------------------------------------------------------
  */
 
-/*
- * ----------------------------------------------------------------------------
- *
- *     This file is part of the e-edu project.
- *     @Author RB Mhetre
- *     @Generated 2023
- *
- *     ----------------------------------------------------------------------------
- */
 
 package com.upi.account.Repositories;
 
