@@ -61,6 +61,14 @@ public class BankCustomerDtoServices {
         return splitedEmail[0] + splitedEmail[1];
     }
 
+    /**
+     * Create mask of Lebgth.
+     *
+     * @param maskLength the bank customer
+     *
+     * @return the secured string mask
+     */
+
     private String generateLengthMask(int maskLength) {
         StringBuilder starString = new StringBuilder();
         for (int i = 0; i < maskLength; i++) {

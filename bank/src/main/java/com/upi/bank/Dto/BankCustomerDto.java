@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * The type Bank customer dto.
+ */
 @Data
 @Builder
 public class BankCustomerDto {

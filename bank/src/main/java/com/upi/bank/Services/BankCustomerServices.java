@@ -22,7 +22,8 @@ public class BankCustomerServices {
     /**
      * Instantiates a new Bank customer services.
      *
-     * @param bankCustomerRepository the bank customer repository
+     * @param bankCustomerRepository  the bank customer repository
+     * @param bankCustomerDtoServices the bank customer dto services
      */
     public BankCustomerServices(BankCustomerRepository bankCustomerRepository, BankCustomerDtoServices bankCustomerDtoServices) {
         this.bankCustomerRepository = bankCustomerRepository;
@@ -44,6 +45,13 @@ public class BankCustomerServices {
         return ResponseEntity.badRequest().body("CUSTOMER ALREADY EXISTS");
     }
 
+    /**
+     * Validate customer bank customer.
+     *
+     * @param bankCustomerDto the bank customer dto
+     *
+     * @return the bank customer
+     */
     public BankCustomer validateCustomer(BankCustomer bankCustomerDto) {
         return bankCustomerRepository.findAllByEmail(bankCustomerDto.getEmail());
     }

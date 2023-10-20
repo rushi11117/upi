@@ -12,6 +12,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BankCustomerRepository extends JpaRepository<BankCustomer, Long> {
 
+    /**
+     * Find all by email bank customer.
+     *
+     * @param email the email
+     *
+     * @return the bank customer
+     */
     @Query("SELECT customer FROM BankCustomer customer WHERE customer.email = ?1")
     BankCustomer findAllByEmail(String email);
 }
