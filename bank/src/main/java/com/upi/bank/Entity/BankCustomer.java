@@ -20,29 +20,29 @@ public class BankCustomer {
     @Column(name = "customer_id")
     private Long customerId;
 
-    @Column(name = "first_name")
-    private String firstName;
+    @Column(name = "first_name", columnDefinition = "varchar(255)")
+    private String first_name;
 
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(name = "last_name", columnDefinition = "varchar(255)")
+    private String last_name;
 
-    @Column(name = "email")
+    @Column(name = "email", columnDefinition = "varchar(255)")
     private String email;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", columnDefinition = "varchar(13)")
     private String phoneNumber;
 
-    @Column(name = "date_of_birth")
-    private Date dateOfBirth;
+    @Column(name = "date_of_birth" ,columnDefinition = "date")
+    private Date date_of_birth;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at")
+    @Column(name = "created_at", columnDefinition = "date")
     private Date createdAt;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", columnDefinition = "date")
     private Date updatedAt;
 }
 

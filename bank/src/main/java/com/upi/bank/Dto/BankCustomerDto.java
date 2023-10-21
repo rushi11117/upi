@@ -11,13 +11,22 @@ import java.util.Date;
 @Data
 @Builder
 public class BankCustomerDto {
-    private String firstName;
+    private String first_name;
 
-    private String lastName;
+    private String last_name;
 
     private String email;
 
     private String phoneNumber;
 
     private Date dateOfBirth;
+
+    /**
+     * Sets email.
+     *
+     * @param email the email
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

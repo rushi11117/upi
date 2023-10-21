@@ -23,11 +23,11 @@ public class BankCustomerDtoServices {
      */
     public BankCustomer mapBankCustomerDtoToBankCustomer(BankCustomerDto bankCustomerDto) {
         BankCustomer bankCustomer = new BankCustomer();
-        bankCustomer.setFirstName(bankCustomerDto.getFirstName());
-        bankCustomer.setLastName(bankCustomerDto.getLastName());
+        bankCustomer.setFirst_name(bankCustomerDto.getLast_name());
+        bankCustomer.setLast_name(bankCustomerDto.getLast_name());
         bankCustomer.setEmail(bankCustomerDto.getEmail());
         bankCustomer.setPhoneNumber(bankCustomerDto.getPhoneNumber());
-        bankCustomer.setDateOfBirth(bankCustomerDto.getDateOfBirth());
+        bankCustomer.setDate_of_birth(bankCustomerDto.getDateOfBirth());
         return bankCustomer;
     }
 
@@ -39,41 +39,12 @@ public class BankCustomerDtoServices {
      * @return the bank customer dto
      */
     public BankCustomerDto mapBankCustomerToBankCustomerDto(BankCustomer bankCustomer) {
+        MaskSensitve maskSensitve = new MaskSensitve();
         return BankCustomerDto.builder()
-                .firstName(bankCustomer.getFirstName())
-                .lastName(bankCustomer.getLastName())
-                .email(maskSensitiveData(bankCustomer.getEmail()))
-                .phoneNumber(maskSensitiveData(bankCustomer.getPhoneNumber()))
+                .first_name(bankCustomer.getFirst_name())
+                .last_name(bankCustomer.getLast_name())
+                .email(maskSensitve.maskSensitiveData(bankCustomer.getEmail()))
+                .phoneNumber(maskSensitve.maskSensitiveData(bankCustomer.getPhoneNumber()))
                 .build();
-    }
-
-    /**
-     * Create secured mask for sensitive entity.
-     *
-     * @param securedEntity the bank customer
-     *
-     * @return the secured string mask entity
-     */
-    private String maskSensitiveData(String securedEntity) {
-        String[] splitedEmail = securedEntity.split("@");
-        String tmpMask = splitedEmail[0].substring(splitedEmail[0].length() / 2);
-        splitedEmail[0] = splitedEmail[0].replace(tmpMask, generateLengthMask(splitedEmail[0].length()/2));
-        return splitedEmail[0] + splitedEmail[1];
-    }
-
-    /**
-     * Create mask of Lebgth.
-     *
-     * @param maskLength the bank customer
-     *
-     * @return the secured string mask
-     */
-
-    private String generateLengthMask(int maskLength) {
-        StringBuilder starString = new StringBuilder();
-        for (int i = 0; i < maskLength; i++) {
-            starString.append('*');
-        }
-        return starString.toString();
     }
 }
