@@ -1,8 +1,8 @@
 package com.upi.bank.Services;
 
 import com.upi.bank.Dto.BankCustomerResponseDto;
-import com.upi.bank.Dto.DtoServices.BankCustomerResponseDtoServices;
 import com.upi.bank.Dto.DtoServices.BankCustomerDtoServices;
+import com.upi.bank.Dto.DtoServices.BankCustomerResponseDtoServices;
 import com.upi.bank.Entity.BankCustomer;
 import com.upi.bank.Exceptions.EntityAlreadyExistsException;
 import com.upi.bank.Repositories.BankCustomerRepository;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,13 +21,13 @@ import java.util.stream.Collectors;
 public class BankCustomerServices {
 
     @Autowired
-    private static BankCustomerRepository bankCustomerRepository;
+    private final BankCustomerRepository bankCustomerRepository;
 
     @Autowired
-    private static BankCustomerDtoServices bankCustomerDtoServices;
+    private final BankCustomerDtoServices bankCustomerDtoServices;
 
     @Autowired
-    private static BankCustomerResponseDtoServices bankCustomerResponseDtoServices;
+    private final BankCustomerResponseDtoServices bankCustomerResponseDtoServices;
 
     /**
      * Instantiates a new Bank customer services.
@@ -53,9 +52,10 @@ public class BankCustomerServices {
      */
     public ResponseEntity createNewBankAccount(BankCustomer bankCustomer) throws EntityAlreadyExistsException {
         if (validateCustomer(bankCustomer.getEmail()) == null) {
-            return ResponseEntity.status(409).body(bankCustomerRepository.save(bankCustomer));
-        } else if (validateCustomer(bankCustomer.getPhoneNumber(), "phone_number") != null) {
-            throw new EntityAlreadyExistsException(bankCustomer.getPhoneNumber(), "Phone Number");
+            if (validateCustomer(bankCustomer.getPhoneNumber(), "phone_number") == null) {
+                return ResponseEntity.status(409).body(bankCustomerRepository.save(bankCustomer));
+            }
+            throw new EntityAlreadyExistsException(bankCustomer.getPhoneNumber(), "PHONE NUMBER");
         }
         throw new EntityAlreadyExistsException(bankCustomer.getEmail(), "EMAIL");
     }
@@ -85,7 +85,20 @@ public class BankCustomerServices {
      */
     @Transactional
     public ResponseEntity updateExistingBankAccount(BankCustomer bankCustomer) {
-        bankCustomerRepository.updateBankCustomer(bankCustomer.getFirst_name(), bankCustomer.getLast_name(), bankCustomer.getDate_of_birth(), bankCustomer.getEmail());
+        BankCustomer bankCustomer1 = bankCustomerRepository.findAllByColumn(bankCustomer.getEmail(), "email");
+        if (bankCustomer.getPhoneNumber() != null) {
+            bankCustomer1.setPhoneNumber(bankCustomer.getPhoneNumber());
+        }
+        if (bankCustomer.getFirst_name() != null) {
+            bankCustomer1.setFirst_name(bankCustomer.getFirst_name());
+        }
+        if (bankCustomer.getLast_name() != null) {
+            bankCustomer1.setLast_name(bankCustomer.getLast_name());
+        }
+        if (bankCustomer.getDate_of_birth() != null) {
+            bankCustomer1.setDate_of_birth(bankCustomer.getDate_of_birth());
+        }
+        bankCustomerRepository.updateBankCustomer(bankCustomer1.getFirst_name(), bankCustomer1.getLast_name(), bankCustomer1.getDate_of_birth(), bankCustomer1.getEmail());
         return ResponseEntity
                 .ok("CUSTOMER UPDATED");
     }

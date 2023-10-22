@@ -22,24 +22,24 @@ public class BankAccount {
     private Long accountId;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id", columnDefinition = "bigint(20)")
     private BankCustomer customer;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "account_type")
-    private AccountType accountType;
+    @Column(name = "account_type", columnDefinition = "enum('CHECKING', 'LOAN', 'SAVING')")
+    private AccountType account_type;
 
-    @Column(name = "balance")
+    @Column(name = "balance" ,columnDefinition = "double")
     private Double balance;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at")
+    @Column(name = "created_at" , columnDefinition = "datetime")
     private Date createdAt;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", updatable = false ,columnDefinition = "datetime")
     private Date updatedAt;
 }
 

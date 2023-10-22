@@ -37,12 +37,12 @@ public class BankCustomer {
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", columnDefinition = "date")
+    @Column(name = "created_at", columnDefinition = "datetime")
     private Date createdAt;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at", columnDefinition = "date")
+    @Column(name = "updated_at", columnDefinition = "datetime")
     private Date updatedAt;
 }
 
