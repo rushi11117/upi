@@ -53,14 +53,13 @@ public class UpiController {
     /**
      * Generate upi id.
      *
-     * @param customerRequestDto the customer request dto
+     * @param customerIdentifier the customer identifier
      *
      * @throws UpiAlreadyExistsException the upi already exists exception
      */
-    @GetMapping("/new")
-    public void generateUpiId(@RequestBody CustomerRequestDto customerRequestDto) throws UpiAlreadyExistsException {
-//        ResponseEntity.status(409).body(upiServices.generateNewUpiId(customerRequestDto));
-        upiServices.generateNewUpiId(customerRequestDto);
+    @GetMapping("/new/{customerIdentifier}")
+    public void generateUpiId(@PathVariable String customerIdentifier) throws UpiAlreadyExistsException {
+        upiServices.generateNewUpiId(customerIdentifier);
     }
 
     /**

@@ -36,11 +36,12 @@ import com.upi.account.Entity.Upi;
 import com.upi.account.Exceptions.UpiAlreadyExistsException;
 import com.upi.account.Repositories.CustomerRepository;
 import com.upi.account.Repositories.UpiRepository;
-import com.upi.account.dto.CustomerRequestDto;
+import com.upi.account.Util.ObjectCheck;
 import com.upi.account.dto.DtoServices.CustomerResponseDtoServices;
 import com.upi.account.dto.DtoServices.UpiResponseDtoServices;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,6 +72,10 @@ public class UpiServices {
     @Autowired
     private final CustomerService customerService;
 
+    @Autowired
+    private final ObjectCheck objectCheck;
+
+
     /**
      * Instantiates a new Upi services.
      *
@@ -80,38 +85,53 @@ public class UpiServices {
      * @param customerResponseDtoServices the customer response dto services
      * @param entityManager               the entity manager
      * @param customerService             the customer service
+     * @param objectCheck                 the object check
      */
-    public UpiServices(UpiRepository upiRepository, CustomerRepository customerRepository, UpiResponseDtoServices upiResponseDtoServices, CustomerResponseDtoServices customerResponseDtoServices, EntityManager entityManager, CustomerService customerService) {
+    public UpiServices(
+            UpiRepository upiRepository,
+            CustomerRepository customerRepository,
+            UpiResponseDtoServices upiResponseDtoServices,
+            CustomerResponseDtoServices customerResponseDtoServices,
+            EntityManager entityManager,
+            CustomerService customerService,
+            ObjectCheck objectCheck
+    ) {
         this.upiRepository = upiRepository;
         this.customerRepository = customerRepository;
         this.upiResponseDtoServices = upiResponseDtoServices;
         this.customerResponseDtoServices = customerResponseDtoServices;
         this.entityManager = entityManager;
         this.customerService = customerService;
+        this.objectCheck = objectCheck;
     }
 
 
     /**
      * Generate new upi id string.
      *
-     * @param customerRequestDto the customer request dto
+     * @param customerIdentifier the customer identifier
      *
      * @return the string
      * @throws UpiAlreadyExistsException the upi already exists exception
      */
     @Transactional
-    public void generateNewUpiId(CustomerRequestDto customerRequestDto) throws UpiAlreadyExistsException {
-        Customer customer = customerRepository.findByEmail(customerRequestDto.getCustomer_email());
-//        upi.setUpi_of_customer(customer);
+    public void generateNewUpiId(String customerIdentifier) throws UpiAlreadyExistsException {
+        Customer customer = new Customer();
+        if (objectCheck.isPhoneNumber(customerIdentifier)) {
+            customer = customerRepository.findByPhoneNumber(customerIdentifier);
+        } else {
+            customer = customerRepository.findByEmail(customerIdentifier);
+        }
         if (upiRepository.findByUpiId(generateUpiUsingEmail(customer)) == null) {
             Upi upi = new Upi(customer);
             upi.setUpi_id(generateUpiUsingEmail(customer));
             upi.setUpi_password(generateUpiUsingEmail(customer));
             upiRepository.save(upi);
+        } else {
+            throw new UpiAlreadyExistsException("Upi Already Generated.");
         }
-        throw new UpiAlreadyExistsException("Upi Already Generated.");
-//        UpiResponseDto upiResponseDto = upiResponseDtoServices.mapUpiEntityT0UpiResponseDto(upi);
-//        return upiResponseDto;
+        throw new UpiAlreadyExistsException(HttpStatus.CREATED.toString());
+
         /**
          *
          * Generate Entity Manager Factory Using JPAUtil

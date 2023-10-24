@@ -109,10 +109,10 @@ public class CustomerService {
      * @return the boolean
      */
     public Boolean isCustomerExists(String customerEmail) {
-//        System.out.println(customerRepository.findByEmail(customerEmail, (Pageable) PageRequest.of(0, 1)));
         Customer customer = customerRepository.findByEmail(customerEmail);
         return customer != null;
     }
+
 
     /**
      * Find customer by email customer.

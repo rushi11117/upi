@@ -123,7 +123,7 @@ public class BankCustomerServices {
     public List<BankCustomerResponseDto> getAllBankAccounts() {
         return bankCustomerRepository.findAll()
                 .stream()
-                .map(bankCustomer -> bankCustomerResponseDtoServices.mapmapToBankCustomerToBankCustomerResponseDto(bankCustomer))
+                .map(bankCustomer -> bankCustomerResponseDtoServices.mapToBankCustomerToBankCustomerResponseDto(bankCustomer))
                 .collect(Collectors.toList());
     }
 
@@ -135,6 +135,6 @@ public class BankCustomerServices {
      * @return the bank account
      */
     public BankCustomerResponseDto getBankAccount(String customerEmail) {
-        return bankCustomerResponseDtoServices.mapmapToBankCustomerToBankCustomerResponseDto(bankCustomerRepository.findAllByColumn(customerEmail, "email"));
+        return bankCustomerResponseDtoServices.mapToBankCustomerToBankCustomerResponseDto(bankCustomerRepository.findAllByColumn(customerEmail, "email"));
     }
 }

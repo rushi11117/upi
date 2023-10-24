@@ -4,6 +4,7 @@ import com.upi.bank.Dto.BankAccountDto;
 import com.upi.bank.Dto.DtoServices.BankAccountDtoServices;
 import com.upi.bank.Entity.BankAccount;
 import com.upi.bank.Enums.AccountLimitTearms;
+import com.upi.bank.Enums.ServerUri;
 import com.upi.bank.Exceptions.MinimumAccountBalanceException;
 import com.upi.bank.Repositories.BankAccountRepository;
 import com.upi.bank.Repositories.BankCustomerRepository;
@@ -11,6 +12,8 @@ import com.upi.bank.Utils.ObjectCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -31,6 +34,9 @@ public class BankAccountService {
     @Autowired
     private final BankAccountDtoServices bankAccountDtoServices;
 
+    @Autowired
+    private final WebClient webClient;
+
 
     /**
      * Instantiates a new Bank account service.
@@ -38,11 +44,18 @@ public class BankAccountService {
      * @param bankAccountRepository  the bank account repository
      * @param bankCustomerRepository the bank customer repository
      * @param bankAccountDtoServices the bank account dto services
+     * @param webClient              the web client
      */
-    public BankAccountService(BankAccountRepository bankAccountRepository, BankCustomerRepository bankCustomerRepository, BankAccountDtoServices bankAccountDtoServices) {
+    public BankAccountService(
+            BankAccountRepository bankAccountRepository,
+            BankCustomerRepository bankCustomerRepository,
+            BankAccountDtoServices bankAccountDtoServices,
+            WebClient webClient
+    ) {
         this.bankAccountRepository = bankAccountRepository;
         this.bankCustomerRepository = bankCustomerRepository;
         this.bankAccountDtoServices = bankAccountDtoServices;
+        this.webClient = webClient;
     }
 
     /**
@@ -101,5 +114,20 @@ public class BankAccountService {
                 }
         );
         return Double.parseDouble(balance.toString());
+    }
+
+    /**
+     * Generate upi for bank account string.
+     *
+     * @param customerIdentifier the customer identifier
+     *
+     * @return the string
+     */
+    public Mono<ResponseEntity<String>> generateUpiForBankAccount(String customerIdentifier) {
+        return webClient.get()
+                .uri(ServerUri.UPI_SERVER + "/upi/new")
+                .header("customerIdentifier", customerIdentifier)
+                .retrieve()
+                .toEntity(String.class);
     }
 }

@@ -9,15 +9,6 @@
  *     ----------------------------------------------------------------------------
  */
 
-/*
- * ----------------------------------------------------------------------------
- *
- *     This file is part of the e-edu project.
- *     @Author RB Mhetre
- *     @Generated 2023
- *
- *     ----------------------------------------------------------------------------
- */
 
 package com.upi.account.Controller;
 
@@ -31,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -49,7 +41,7 @@ public class CustomerController {
      * @param customerService the customer service
      */
     public CustomerController(CustomerService customerService) {
-        this.customerService = customerService;
+        CustomerController.customerService = customerService;
     }
 
     /**
@@ -62,6 +54,19 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity createCustomer(@RequestBody Customer customer) {
         return customerService.createUser(customer);
+    }
+
+    /**
+     * Create customer list.
+     *
+     * @param customers the customers
+     *
+     * @return the list
+     */
+    @PostMapping("/bulk")
+    public List<ResponseEntity> createCustomer(@RequestBody List<Customer> customers) {
+        return customers.stream()
+                .map(customer -> createCustomer(customer)).collect(Collectors.toList());
     }
 
     /**

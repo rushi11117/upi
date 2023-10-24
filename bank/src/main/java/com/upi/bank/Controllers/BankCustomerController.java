@@ -1,14 +1,18 @@
 package com.upi.bank.Controllers;
 
 import com.upi.bank.Dto.BankCustomerResponseDto;
+import com.upi.bank.Dto.DtoServices.BankCustomerDtoServices;
+import com.upi.bank.Dto.DtoServices.BankCustomerResponseDtoServices;
 import com.upi.bank.Entity.BankCustomer;
 import com.upi.bank.Exceptions.EntityAlreadyExistsException;
+import com.upi.bank.Services.BankAccountService;
 import com.upi.bank.Services.BankCustomerServices;
 import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The type Bank customer controller.
@@ -18,14 +22,24 @@ import java.util.List;
 public class BankCustomerController {
 
     private static BankCustomerServices bankCustomerServices;
+    private static BankAccountService bankAccountService;
+    private BankCustomerResponseDtoServices bankCustomerResponseDtoServices;
 
     /**
      * Instantiates a new Bank customer controller.
      *
-     * @param bankCustomerServices the bank customer services
+     * @param bankCustomerServices    the bank customer services
+     * @param bankAccountService      the bank account service
+     * @param bankCustomerDtoServices the bank customer dto services
      */
-    public BankCustomerController(BankCustomerServices bankCustomerServices) {
+    public BankCustomerController(
+            BankCustomerServices bankCustomerServices,
+            BankAccountService bankAccountService,
+            BankCustomerDtoServices bankCustomerDtoServices
+    ) {
+        this.bankAccountService = bankAccountService;
         this.bankCustomerServices = bankCustomerServices;
+        this.bankCustomerResponseDtoServices = bankCustomerResponseDtoServices;
     }
 
     /**
@@ -44,6 +58,27 @@ public class BankCustomerController {
             return ResponseEntity.badRequest().body("Enter valid Phone Number");
         }
         return bankCustomerServices.createNewBankAccount(bankCustomer);
+    }
+
+    /**
+     * Add buld data customer list.
+     *
+     * @param bankCustomers the bank customers
+     *
+     * @return the list
+     * @throws EntityAlreadyExistsException the entity already exists exception
+     */
+    @PostMapping("/bulk")
+    public List<ResponseEntity> addBuldDataCustomer(@RequestBody @NonNull List<BankCustomer> bankCustomers) throws EntityAlreadyExistsException {
+        return bankCustomers.stream()
+                .map(bankCustomer -> {
+                    try {
+                        return createNewBankAccount(bankCustomer);
+                    } catch (EntityAlreadyExistsException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .collect(Collectors.toList());
     }
 
     /**
@@ -91,6 +126,18 @@ public class BankCustomerController {
     @GetMapping("/all")
     public List<BankCustomerResponseDto> getAllBankAccounts() {
         return bankCustomerServices.getAllBankAccounts();
+    }
+
+    /**
+     * Gets my upi.
+     *
+     * @param customerIdentifier the customer identifier
+     *
+     * @return the my upi
+     */
+    @GetMapping("/myupi/{customerIdentifier}")
+    public String getMyUpi(@PathVariable String customerIdentifier) {
+        return bankAccountService.generateUpiForBankAccount(customerIdentifier).toString();
     }
 
 }

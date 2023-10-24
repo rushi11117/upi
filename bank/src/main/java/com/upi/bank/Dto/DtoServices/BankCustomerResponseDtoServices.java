@@ -23,7 +23,7 @@ public class BankCustomerResponseDtoServices {
      *
      * @return the bank customer response dto
      */
-    public BankCustomerResponseDto mapmapToBankCustomerToBankCustomerResponseDto(BankCustomer bankCustomer) {
+    public BankCustomerResponseDto mapToBankCustomerToBankCustomerResponseDto(BankCustomer bankCustomer) {
         return BankCustomerResponseDto.builder()
                 .first_name(bankCustomer.getFirst_name())
                 .last_name(bankCustomer.getLast_name())

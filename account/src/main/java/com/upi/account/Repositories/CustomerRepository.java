@@ -48,4 +48,15 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Modifying
     @Query("UPDATE Customer c SET c.customer_name = :customer_name, c.customer_address = :customer_address WHERE c.customer_email = :customer_email")
     int updateByEmail(@Param("customer_email") String customer_email, @Param("customer_name") String customer_name, @Param("customer_address") String customer_address);
+
+
+    /**
+     * Find by phone number customer.
+     *
+     * @param customerIdentifier the customer identifier
+     *
+     * @return the customer
+     */
+    @Query("SELECT c FROM Customer c WHERE c.phoneNumber = ?1")
+    Customer findByPhoneNumber(String customerIdentifier);
 }
