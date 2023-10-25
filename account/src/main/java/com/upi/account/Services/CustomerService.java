@@ -45,9 +45,9 @@ import java.util.stream.Collectors;
 public class CustomerService {
 
     @Autowired
-    private static CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
     @Autowired
-    private static CustomerResponseDtoServices customerResponseDtoServices;
+    private final CustomerResponseDtoServices customerResponseDtoServices;
 
 
     /**

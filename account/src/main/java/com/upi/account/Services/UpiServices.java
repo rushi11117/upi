@@ -31,6 +31,7 @@
 
 package com.upi.account.Services;
 
+import com.upi.account.Configurations.BCryptPasswordEncoder;
 import com.upi.account.Entity.Customer;
 import com.upi.account.Entity.Upi;
 import com.upi.account.Exceptions.UpiAlreadyExistsException;
@@ -75,6 +76,9 @@ public class UpiServices {
     @Autowired
     private final ObjectCheck objectCheck;
 
+/*    @Autowired
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;*/
+
 
     /**
      * Instantiates a new Upi services.
@@ -95,6 +99,7 @@ public class UpiServices {
             EntityManager entityManager,
             CustomerService customerService,
             ObjectCheck objectCheck
+//            BCryptPasswordEncoder bCryptPasswordEncoder
     ) {
         this.upiRepository = upiRepository;
         this.customerRepository = customerRepository;
@@ -103,6 +108,7 @@ public class UpiServices {
         this.entityManager = entityManager;
         this.customerService = customerService;
         this.objectCheck = objectCheck;
+//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
 
@@ -202,5 +208,19 @@ public class UpiServices {
      */
     public List<Upi> getAllUpi() {
         return upiRepository.findAll();
+    }
+
+    /**
+     * Update upi password boolean.
+     *
+     * @param upiId       the upi id
+     * @param newPassword the new password
+     *
+     * @return the boolean
+     */
+    public boolean updateUpiPassword(String upiId, String newPassword) {
+        Upi upi = upiRepository.findByUpiId(upiId);
+        upi.setUpi_password(newPassword);
+        return upiRepository.save(upi) != null;
     }
 }

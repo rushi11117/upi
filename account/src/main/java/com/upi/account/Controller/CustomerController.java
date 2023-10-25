@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 public class CustomerController {
 
     @Autowired
-    private static CustomerService customerService;
+    private final CustomerService customerService;
 
     /**
      * Instantiates a new Customer controller.
@@ -41,7 +41,7 @@ public class CustomerController {
      * @param customerService the customer service
      */
     public CustomerController(CustomerService customerService) {
-        CustomerController.customerService = customerService;
+        this.customerService = customerService;
     }
 
     /**

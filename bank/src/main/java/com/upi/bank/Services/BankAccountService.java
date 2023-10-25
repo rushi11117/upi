@@ -125,8 +125,7 @@ public class BankAccountService {
      */
     public Mono<ResponseEntity<String>> generateUpiForBankAccount(String customerIdentifier) {
         return webClient.get()
-                .uri(ServerUri.UPI_SERVER + "/upi/new")
-                .header("customerIdentifier", customerIdentifier)
+                .uri(ServerUri.UPI_SERVER.getServiceurl()+"/upi/new/"+customerIdentifier)
                 .retrieve()
                 .toEntity(String.class);
     }

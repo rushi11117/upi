@@ -10,6 +10,7 @@ import com.upi.bank.Services.BankCustomerServices;
 import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -136,8 +137,8 @@ public class BankCustomerController {
      * @return the my upi
      */
     @GetMapping("/myupi/{customerIdentifier}")
-    public String getMyUpi(@PathVariable String customerIdentifier) {
-        return bankAccountService.generateUpiForBankAccount(customerIdentifier).toString();
+    public Mono<ResponseEntity<String>> getMyUpi(@PathVariable String customerIdentifier) {
+        return bankAccountService.generateUpiForBankAccount(customerIdentifier);
     }
 
 }

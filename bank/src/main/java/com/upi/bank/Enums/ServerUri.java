@@ -8,7 +8,7 @@ public enum ServerUri {
     /**
      * Upi server server uri.
      */
-    UPI_SERVER("htto://localhost:8081");
+    UPI_SERVER("http://localhost:8081");
 
     private final String serviceUrl;
 

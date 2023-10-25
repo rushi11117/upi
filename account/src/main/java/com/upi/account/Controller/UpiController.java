@@ -26,6 +26,7 @@ import com.upi.account.Exceptions.UpiAlreadyExistsException;
 import com.upi.account.Services.UpiServices;
 import com.upi.account.dto.CustomerRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +40,7 @@ import java.util.List;
 public class UpiController {
 
     @Autowired
-    private static UpiServices upiServices;
+    private final UpiServices upiServices;
 
     /**
      * Instantiates a new Upi controller.
@@ -60,6 +61,26 @@ public class UpiController {
     @GetMapping("/new/{customerIdentifier}")
     public void generateUpiId(@PathVariable String customerIdentifier) throws UpiAlreadyExistsException {
         upiServices.generateNewUpiId(customerIdentifier);
+    }
+
+
+    /**
+     * Update upi password response entity.
+     *
+     * @param email       the email
+     * @param newPassword the new password
+     *
+     * @return the response entity
+     */
+    @PostMapping({"/addpassword/{email}/{newPassword}", "/updatepassword/{email}/{newPassword}"})
+    public ResponseEntity updateUpiPassword(
+            @PathVariable String email,
+            @PathVariable String newPassword
+    ) {
+        if(upiServices.updateUpiPassword(email, newPassword)) {
+            return ResponseEntity.ok().body("Updated");
+        }
+        return ResponseEntity.ok().body("Unexpected Error!!!");
     }
 
     /**
