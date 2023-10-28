@@ -15,22 +15,22 @@ import com.upi.transactionmessageservice.Entity.TransactionMessageRaw;
 import com.upi.transactionmessageservice.Enums.TransactionStatus;
 import com.upi.transactionmessageservice.Services.TransactionUsingUpiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * The type Transaction controller.
  */
 @Controller
-@RestController("/transaction")
+@RequestMapping("/transaction")
 public class TransactionController {
 
 
     @Autowired
     private TransactionUsingUpiService transactionUsingUpiService;
+
+
 
     /**
      * Instantiates a new Transaction controller.
@@ -44,22 +44,19 @@ public class TransactionController {
     /**
      * Send money transaction status.
      *
-     * @param fromUpi      the from upi
-     * @param toUpi        the to upi
-     * @param amount       the amount
-     * @param passwordHash the password hash
+     * @param transactionMessageRaw the transaction message raw
      *
      * @return the transaction status
      */
-    @PutMapping("/upi/{fromUpi}/{toUpi}/{amount}")
-    public TransactionStatus sendMoney(
-//            @RequestBody TransactionMessageRaw transactionMessageRaw,
-            @PathVariable String fromUpi,
+//    @PutMapping("/upi/{fromUpi}/{toUpi}/{amount}/{passwordHash}")
+    @PutMapping
+    public ResponseEntity sendMoney(
+            @RequestBody TransactionMessageRaw transactionMessageRaw
+/*            @PathVariable String fromUpi,
             @PathVariable String toUpi,
             @PathVariable Long amount,
-            @PathVariable String passwordHash
+            @PathVariable String passwordHash*/
     ) {
-        transactionUsingUpiService.sendMonyToSingleUpi(fromUpi ,toUpi ,amount, passwordHash);
-        return TransactionStatus.TRANSACTION_FAILED;
+        return ResponseEntity.ok().body(transactionUsingUpiService.sendMonyToSingleUpi(transactionMessageRaw));
     }
 }

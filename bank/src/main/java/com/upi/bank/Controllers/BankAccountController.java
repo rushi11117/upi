@@ -4,7 +4,6 @@ import com.upi.bank.Dto.BankAccountDto;
 import com.upi.bank.Entity.BankAccount;
 import com.upi.bank.Services.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +38,7 @@ public class BankAccountController {
      * @return the response entity
      */
     @PostMapping("/{customerEmail}")
-    public ResponseEntity createNewBankAccount(@RequestBody BankAccount bankAccount , @PathVariable String customerEmail) {
+    public ResponseEntity createNewBankAccount(@RequestBody BankAccount bankAccount, @PathVariable String customerEmail) {
         return bankAccountService.createNewBankAccount(bankAccount, customerEmail);
     }
 
@@ -74,6 +73,28 @@ public class BankAccountController {
      */
     @GetMapping("/getbalance/{customerIdentifier}")
     public ResponseEntity getAccountBalanceNB(@PathVariable Object customerIdentifier) {
-        return ResponseEntity.ok().body(bankAccountService.getAccountBalanca(customerIdentifier.toString()));
+        System.out.println(customerIdentifier.toString());
+        return ResponseEntity.ok().body(bankAccountService.getAccountBalance(customerIdentifier.toString()));
+    }
+
+    /**
+     * Sets account balance nb.
+     *
+     * @param customerIdentifier the customer identifier
+     * @param flag               the flag
+     * @param ammount            the ammount
+     *
+     * @return the account balance nb
+     */
+    @PutMapping("/setbalance/{customerIdentifier}/{flag}/{ammount}")
+    public ResponseEntity setAccountBalanceNB(@PathVariable String customerIdentifier, @PathVariable String flag, @PathVariable Long ammount) {
+        Boolean res = bankAccountService.setAccountBalanceNB(customerIdentifier, ammount, flag);
+        return ResponseEntity.ok().body(res);
+    }
+
+    @PutMapping("/test")
+    public String testMapping() {
+        System.out.println("Hello");
+        return "Hello";
     }
 }

@@ -8,12 +8,12 @@
  *     ----------------------------------------------------------------------------
  */
 
-package com.upi.transactionmessageservice.Enums;
+package com.upi.transactionmanager.Enums;
 
 /**
  * The enum Transaction status.
  */
-public enum TransactionStatus {
+public enum TransactionStatusEnum {
 
     /**
      * Transaction failed transaction status.
@@ -35,7 +35,7 @@ public enum TransactionStatus {
 
     private final int transactionCode;
 
-    TransactionStatus(int transactionCode) {
+    TransactionStatusEnum(int transactionCode) {
         this.transactionCode = transactionCode;
     }
 

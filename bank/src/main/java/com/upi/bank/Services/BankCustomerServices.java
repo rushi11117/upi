@@ -34,7 +34,7 @@ public class BankCustomerServices {
      *
      * @param bankCustomerRepository          the bank customer repository
      * @param bankCustomerDtoServices         the bank customer dto services
-     * @param bankCustomerResponseDtoServices the bank account response dto services
+     * @param bankCustomerResponseDtoServices the bank customer response dto services
      */
     public BankCustomerServices(BankCustomerRepository bankCustomerRepository, BankCustomerDtoServices bankCustomerDtoServices, BankCustomerResponseDtoServices bankCustomerResponseDtoServices) {
         this.bankCustomerRepository = bankCustomerRepository;
@@ -116,9 +116,9 @@ public class BankCustomerServices {
     }
 
     /**
-     * Gets all bank account.
+     * Gets all bank accounts.
      *
-     * @return the all bank account
+     * @return the all bank accounts
      */
     public List<BankCustomerResponseDto> getAllBankAccounts() {
         return bankCustomerRepository.findAll()
@@ -134,7 +134,7 @@ public class BankCustomerServices {
      *
      * @return the bank account
      */
-    public BankCustomerResponseDto getBankAccount(String customerEmail) {
-        return bankCustomerResponseDtoServices.mapToBankCustomerToBankCustomerResponseDto(bankCustomerRepository.findAllByColumn(customerEmail, "email"));
+    public BankCustomer getBankAccount(String customerEmail) {
+        return bankCustomerRepository.findAllByColumn(customerEmail, "email");
     }
 }

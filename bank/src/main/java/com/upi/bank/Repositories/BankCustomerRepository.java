@@ -17,7 +17,7 @@ import java.util.Date;
 public interface BankCustomerRepository extends JpaRepository<BankCustomer, Long> {
 
     /**
-     * Find all by email bank customer.
+     * Find all by column bank customer.
      *
      * @param value  the value
      * @param column the column

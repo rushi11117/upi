@@ -104,4 +104,9 @@ public class UpiController {
     public List<Upi> getAllUpi() {
         return upiServices.getAllUpi();
     }
+
+    @GetMapping("/gmailofupi/{customerUpi}")
+    public String getGmailOfUpi (@PathVariable String customerUpi) {
+        return upiServices.getGmailOfUpi(customerUpi);
+    }
 }

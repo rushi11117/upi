@@ -223,4 +223,8 @@ public class UpiServices {
         upi.setUpi_password(newPassword);
         return upiRepository.save(upi) != null;
     }
+
+    public String getGmailOfUpi(String customerUpi) {
+        return customerUpi.split("@")[0]+"@gmail.com";
+    }
 }

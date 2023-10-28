@@ -116,8 +116,9 @@ public class BankCustomerController {
      */
     @GetMapping("/{customerEmail}")
     public BankCustomerResponseDto getBankAccount(@PathVariable(name = "customerEmail") String customerEmail) {
-        return bankCustomerServices.getBankAccount(customerEmail);
+        return bankCustomerResponseDtoServices.mapToBankCustomerToBankCustomerResponseDto(bankCustomerServices.getBankAccount(customerEmail));
     }
+
 
     /**
      * Gets all bank accounts.
@@ -129,13 +130,6 @@ public class BankCustomerController {
         return bankCustomerServices.getAllBankAccounts();
     }
 
-    /**
-     * Gets my upi.
-     *
-     * @param customerIdentifier the customer identifier
-     *
-     * @return the my upi
-     */
     @GetMapping("/myupi/{customerIdentifier}")
     public Mono<ResponseEntity<String>> getMyUpi(@PathVariable String customerIdentifier) {
         return bankAccountService.generateUpiForBankAccount(customerIdentifier);

@@ -1,17 +1,11 @@
-package com.upi.bank;
+package com.upi.transactionmanager;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-/**
- * The type Bank application tests.
- */
 @SpringBootTest
-class BankApplicationTests {
+class TransactionManagerApplicationTests {
 
-	/**
-	 * Context loads.
-	 */
 	@Test
 	void contextLoads() {
 	}

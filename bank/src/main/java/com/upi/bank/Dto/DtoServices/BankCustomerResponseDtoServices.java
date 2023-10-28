@@ -17,7 +17,7 @@ public class BankCustomerResponseDtoServices {
     MaskSensitve maskSensitve = new MaskSensitve();
 
     /**
-     * Map to bank account response dto bank customer response dto.
+     * Map to bank customer to bank customer response dto bank customer response dto.
      *
      * @param bankCustomer the bank customer
      *

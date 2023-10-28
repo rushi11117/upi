@@ -5,7 +5,6 @@ import com.upi.bank.Dto.DtoServices.BankAccountDtoServices;
 import com.upi.bank.Entity.BankAccount;
 import com.upi.bank.Enums.AccountLimitTearms;
 import com.upi.bank.Enums.ServerUri;
-import com.upi.bank.Exceptions.MinimumAccountBalanceException;
 import com.upi.bank.Repositories.BankAccountRepository;
 import com.upi.bank.Repositories.BankCustomerRepository;
 import com.upi.bank.Utils.ObjectCheck;
@@ -35,6 +34,9 @@ public class BankAccountService {
     private final BankAccountDtoServices bankAccountDtoServices;
 
     @Autowired
+    private final BankCustomerServices bankCustomerServices;
+
+    @Autowired
     private final WebClient webClient;
 
 
@@ -45,17 +47,20 @@ public class BankAccountService {
      * @param bankCustomerRepository the bank customer repository
      * @param bankAccountDtoServices the bank account dto services
      * @param webClient              the web client
+     * @param bankCustomerServices   the bank customer services
      */
     public BankAccountService(
             BankAccountRepository bankAccountRepository,
             BankCustomerRepository bankCustomerRepository,
             BankAccountDtoServices bankAccountDtoServices,
-            WebClient webClient
+            WebClient webClient,
+            BankCustomerServices bankCustomerServices
     ) {
         this.bankAccountRepository = bankAccountRepository;
         this.bankCustomerRepository = bankCustomerRepository;
         this.bankAccountDtoServices = bankAccountDtoServices;
         this.webClient = webClient;
+        this.bankCustomerServices = bankCustomerServices;
     }
 
     /**
@@ -68,6 +73,9 @@ public class BankAccountService {
      */
     public ResponseEntity createNewBankAccount(BankAccount bankAccount, String customerEmail) {
         System.out.println(bankAccount);
+        if (bankAccount.getBalance() == 0) {
+            bankAccount.setBalance(AccountLimitTearms.MIN_BALANCE.getValue());
+        }
         bankAccount.setCustomer(bankCustomerRepository.findAllByColumn(customerEmail, "email"));
         return ResponseEntity.status(409).body(bankAccountRepository.save(bankAccount));
     }
@@ -93,14 +101,13 @@ public class BankAccountService {
     }
 
     /**
-     * Gets account balanca nb.
+     * Gets account balance.
      *
      * @param customerIdentifier the customer identifier
      *
-     * @return the account balanca nb
-     * @throws MinimumAccountBalanceException the minimum account balance exception
+     * @return the account balance
      */
-    public double getAccountBalanca(Object customerIdentifier) {
+    public double getAccountBalance(Object customerIdentifier) {
         AtomicReference<Double> balance = new AtomicReference<>(AccountLimitTearms.MIN_BALANCE.getValue());
         if (new ObjectCheck().isPhoneNumber(customerIdentifier)) {
             bankAccountRepository.findById(bankCustomerRepository.findAllByColumn(customerIdentifier.toString(), "phone_number").getCustomerId()).ifPresent(bankAccount -> {
@@ -117,16 +124,44 @@ public class BankAccountService {
     }
 
     /**
-     * Generate upi for bank account string.
+     * Generate upi for bank account mono.
      *
      * @param customerIdentifier the customer identifier
      *
-     * @return the string
+     * @return the mono
      */
     public Mono<ResponseEntity<String>> generateUpiForBankAccount(String customerIdentifier) {
         return webClient.get()
-                .uri(ServerUri.UPI_SERVER.getServiceurl()+"/upi/new/"+customerIdentifier)
+                .uri(ServerUri.UPI_SERVER.getServiceurl() + "/upi/new/" + customerIdentifier)
                 .retrieve()
                 .toEntity(String.class);
+    }
+
+    /**
+     * Sets account balance nb.
+     *
+     * @param customerIdentifier the customer identifier
+     * @param ammount            the ammount
+     * @param flag               the flag
+     *
+     * @return the account balance nb
+     */
+    public boolean setAccountBalanceNB(String customerIdentifier, Long ammount, String flag) {
+        List<BankAccount> bankAccount = bankAccountRepository.getBankAccountByCustomerIdentifier(bankCustomerRepository.findAllByColumn(customerIdentifier, "email"));
+        System.out.println(customerIdentifier);
+        BankAccount reciversBankAccount;
+        BankAccount sendersBankAccount;
+        if (flag.equals("DEDUCT")) {
+            bankAccount.get(0).setBalance(bankAccount.get(0).getBalance() - ammount);
+            reciversBankAccount = bankAccount.get(0);
+            bankAccountRepository.save(reciversBankAccount);
+            return true;
+        } else if (flag.equals("CREDIT")) {
+            bankAccount.get(0) .setBalance(bankAccount.get(0).getBalance() + ammount);
+            reciversBankAccount = bankAccount.get(0);
+            bankAccountRepository.save(reciversBankAccount);
+            return true;
+        }
+        return false;
     }
 }

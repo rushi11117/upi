@@ -7,11 +7,11 @@ public class MaskSensitve {
 
 
     /**
-     * Create secured mask for sensitive entity.
+     * Mask sensitive data string.
      *
-     * @param securedEntity the bank customer
+     * @param securedEntity the secured entity
      *
-     * @return the secured string mask entity
+     * @return the string
      */
     protected String maskSensitiveData(String securedEntity) {
         String[] splitedEmail = securedEntity.split("@");
@@ -22,14 +22,6 @@ public class MaskSensitve {
         }
         return splitedEmail[0] +"@"+ splitedEmail[1];
     }
-
-    /**
-     * Create mask of Lebgth.
-     *
-     * @param maskLength the bank customer
-     *
-     * @return the secured string mask
-     */
 
     private String generateLengthMask(int maskLength) {
         StringBuilder starString = new StringBuilder();
