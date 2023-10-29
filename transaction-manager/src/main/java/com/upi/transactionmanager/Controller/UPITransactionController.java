@@ -29,11 +29,11 @@ public class UPITransactionController {
     }
 
     /**
-     * Transfer money using transaction message raw transaction status enum.
+     * Transfer money using transaction message raw response entity.
      *
      * @param transactionMessageRaw the transaction message raw
      *
-     * @return the transaction status enum
+     * @return the response entity
      */
     @PutMapping
     public ResponseEntity transferMoneyUsingTransactionMessageRaw(@RequestBody TransactionMessageRaw transactionMessageRaw) {

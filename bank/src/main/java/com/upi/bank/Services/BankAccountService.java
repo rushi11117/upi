@@ -3,6 +3,7 @@ package com.upi.bank.Services;
 import com.upi.bank.Dto.BankAccountDto;
 import com.upi.bank.Dto.DtoServices.BankAccountDtoServices;
 import com.upi.bank.Entity.BankAccount;
+import com.upi.bank.Entity.Transaction;
 import com.upi.bank.Enums.AccountLimitTearms;
 import com.upi.bank.Enums.ServerUri;
 import com.upi.bank.Repositories.BankAccountRepository;

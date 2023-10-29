@@ -1,7 +1,7 @@
 package com.upi.transactionmanager.Enums;
 
 /**
- * The type Server uri enums.
+ * The enum Server uri enums.
  */
 public enum ServerURIEnums {
 
@@ -18,11 +18,6 @@ public enum ServerURIEnums {
     private final String serverUri;
 
 
-    /**
-     * Instantiates a new Server uri enums.
-     *
-     * @param serverUri the server uri
-     */
     ServerURIEnums(String serverUri) {
         this.serverUri = serverUri;
     }
