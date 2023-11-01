@@ -14,7 +14,12 @@ public enum ServerURIEnums {
     /**
      * Bank server uri server uri enums.
      */
-    BANK_SERVER_URI("http://localhost:8082");
+    BANK_SERVER_URI("http://localhost:8082"),
+
+    /**
+     * Notification service uri server uri enums.
+     */
+    NOTIFICATION_SERVICE_URI("http://localhost:8082");
     private final String serverUri;
 
 
