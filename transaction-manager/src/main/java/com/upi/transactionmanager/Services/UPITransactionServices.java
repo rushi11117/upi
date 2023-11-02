@@ -36,6 +36,9 @@ public class UPITransactionServices {
     @Autowired
     private EmailNotificationServices emailNotificationServices;
 
+    @Autowired
+    private SMSNotificationServices smsNotificationServices;
+
 
     /**
      * Instantiates a new Upi transaction services.
@@ -47,11 +50,13 @@ public class UPITransactionServices {
     public UPITransactionServices(
             WebClient webClient,
             TransactionBufferRepository transactionBufferRepository,
-            EmailNotificationServices emailNotificationServices
+            EmailNotificationServices emailNotificationServices,
+            SMSNotificationServices smsNotificationServices
     ) {
         this.webClient = webClient;
         this.transactionBufferRepository = transactionBufferRepository;
         this.emailNotificationServices = emailNotificationServices;
+        this.smsNotificationServices = smsNotificationServices;
     }
 
     /**
@@ -84,6 +89,7 @@ public class UPITransactionServices {
             transactionBuffer.setTransactionCompletion(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
             initiateTransactionInTuple(transactionBuffer);
 //            emailNotificationServices.initiateNotification(transactionBuffer);
+            smsNotificationServices.initiateNotification(transactionBuffer);
             return TransactionStatusEnum.TRANSACTION_SUCCESS;
         }
         transactionBuffer.setTransactionStatus(TransactionStatusEnum.TRANSACTION_FAILED);

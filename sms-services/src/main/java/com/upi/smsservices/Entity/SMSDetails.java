@@ -1,4 +1,4 @@
-package com.upi.emailservices.Entity;
+package com.upi.smsservices.Entity;
 
 
 import lombok.AllArgsConstructor;
@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmailDetails {
-    private String email;
+public class SMSDetails {
+    private String phoneNumber;
 
     private String body;
 
-    private String subject;
+    private String title;
 
-    private String Signiture;
+    private String digitalSigniture;
 }
