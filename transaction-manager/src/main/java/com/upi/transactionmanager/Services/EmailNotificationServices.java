@@ -1,6 +1,6 @@
 package com.upi.transactionmanager.Services;
 
-import com.upi.transactionmanager.Entity.EmailDetails;
+import com.upi.transactionmanager.Entity.NotificationDetails;
 import com.upi.transactionmanager.Entity.TransactionBuffer;
 import com.upi.transactionmanager.Enums.ServerURIEnums;
 import com.upi.transactionmanager.Utils.StringUtils;
@@ -20,7 +20,7 @@ public class EmailNotificationServices {
     private WebClient webClient;
 
     @Autowired
-    private EmailDetails emailDetails;
+    private NotificationDetails notificationDetails;
 
     @Autowired
     private StringUtils stringUtils;
@@ -28,17 +28,17 @@ public class EmailNotificationServices {
     /**
      * Instantiates a new Notification services.
      *
-     * @param webClient    the web client
-     * @param emailDetails the email details
-     * @param stringUtils  the string utils
+     * @param webClient           the web client
+     * @param notificationDetails the notification details
+     * @param stringUtils         the string utils
      */
     public EmailNotificationServices(
             WebClient webClient,
-            EmailDetails emailDetails,
+            NotificationDetails notificationDetails,
             StringUtils stringUtils
     ) {
         this.webClient = webClient;
-        this.emailDetails = emailDetails;
+        this.notificationDetails = notificationDetails;
         this.stringUtils = stringUtils;
     }
 
@@ -48,15 +48,15 @@ public class EmailNotificationServices {
      * @param transactionBuffer the transaction buffer
      */
     public void initiateNotification(TransactionBuffer transactionBuffer) {
-        EmailDetails emailDetails = new EmailDetails();
-        emailDetails = generateEmailBody(transactionBuffer, emailDetails, "credited");
-        emailDetails.setEmail(transactionBuffer.getReciverUpiId());
-        emailDetails.setSubject("Transaction With UPI");
-        Boolean sent = sendEmailNotification(emailDetails);
+        NotificationDetails notificationDetails = new NotificationDetails();
+        notificationDetails = generateEmailBody(transactionBuffer, notificationDetails, "credited");
+        notificationDetails.setEmail(transactionBuffer.getReciverUpiId());
+        notificationDetails.setSubject("Transaction With UPI");
+        Boolean sent = sendEmailNotification(notificationDetails);
         if (sent == true) {
-            emailDetails = generateEmailBody(transactionBuffer, emailDetails, "debited");
-            emailDetails.setEmail(transactionBuffer.getSenderUpiId());
-            sent = sendEmailNotification(emailDetails);
+            notificationDetails = generateEmailBody(transactionBuffer, notificationDetails, "debited");
+            notificationDetails.setEmail(transactionBuffer.getSenderUpiId());
+            sent = sendEmailNotification(notificationDetails);
         }
         if (sent == true) {
             System.out.println("Email Notification Sent");
@@ -70,23 +70,23 @@ public class EmailNotificationServices {
      *
      * @return the email details
      */
-    private EmailDetails generateEmailBody(TransactionBuffer transactionBuffer, EmailDetails emailDetails, String flag) {
-        emailDetails.setBody(stringUtils.generateMessageBody(transactionBuffer, flag));
-        return emailDetails;
+    private NotificationDetails generateEmailBody(TransactionBuffer transactionBuffer, NotificationDetails notificationDetails, String flag) {
+        notificationDetails.setBody(stringUtils.generateMessageBody(transactionBuffer, flag));
+        return notificationDetails;
     }
 
     /**
      * Send email notification boolean.
      *
-     * @param emailDetails the email details
+     * @param notificationDetails the notification details
      *
      * @return the boolean
      */
-    public Boolean sendEmailNotification(EmailDetails emailDetails) {
+    public Boolean sendEmailNotification(NotificationDetails notificationDetails) {
         AtomicReference<Boolean> res = new AtomicReference<>(false);
         webClient.put()
                 .uri(ServerURIEnums.NOTIFICATION_SERVICE_URI.getServerUri() + "/email")
-                .bodyValue(emailDetails)
+                .bodyValue(notificationDetails)
                 .retrieve()
                 .toEntity(Service.class)
                 .subscribe(serviceResponseEntity -> {

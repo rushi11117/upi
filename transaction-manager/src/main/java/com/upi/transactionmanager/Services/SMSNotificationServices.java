@@ -12,6 +12,6 @@ public class SMSNotificationServices {
      * @param transactionBuffer the transaction buffer
      */
     public void initiateNotification(TransactionBuffer transactionBuffer) {
-        transactionBuffer.get
+
     }
 }
