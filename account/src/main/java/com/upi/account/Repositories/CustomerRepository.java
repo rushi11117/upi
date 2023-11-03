@@ -19,6 +19,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * The interface Customer repository.
  */
@@ -59,4 +61,15 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
      */
     @Query("SELECT c FROM Customer c WHERE c.phoneNumber = ?1")
     Customer findByPhoneNumber(String customerIdentifier);
+
+
+    /**
+     * Gets phone number of upi.
+     *
+     * @param customerUpi the customer upi
+     *
+     * @return the phone number of upi
+     */
+    @Query("SELECT c.phoneNumber FROM Customer c JOIN c.added_upi u WHERE u.upi_id = ?1")
+    List<String> getPhoneNumberOfUpi(String customerUpi);
 }

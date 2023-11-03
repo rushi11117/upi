@@ -45,7 +45,8 @@ public class UPITransactionServices {
      *
      * @param webClient                   the web client
      * @param transactionBufferRepository the transaction buffer repository
-     * @param emailNotificationServices        the notification services
+     * @param emailNotificationServices   the notification services
+     * @param smsNotificationServices     the sms notification services
      */
     public UPITransactionServices(
             WebClient webClient,
@@ -89,12 +90,13 @@ public class UPITransactionServices {
             transactionBuffer.setTransactionCompletion(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
             initiateTransactionInTuple(transactionBuffer);
 //            emailNotificationServices.initiateNotification(transactionBuffer);
-            smsNotificationServices.initiateNotification(transactionBuffer);
+//            smsNotificationServices.initiateNotification(transactionBuffer);
             return TransactionStatusEnum.TRANSACTION_SUCCESS;
         }
         transactionBuffer.setTransactionStatus(TransactionStatusEnum.TRANSACTION_FAILED);
         initiateTransactionInTuple(transactionBuffer);
         return TransactionStatusEnum.TRANSACTION_FAILED;
+
     }
 
     /**

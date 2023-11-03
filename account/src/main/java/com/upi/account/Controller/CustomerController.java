@@ -114,4 +114,16 @@ public class CustomerController {
     public Boolean isCustomerExists(@PathVariable String customer_email) {
         return customerService.isCustomerExists(customer_email + "@gmail.com");
     }
+
+    /**
+     * Gets phone number of upi.
+     *
+     * @param customerUpi the customer upi
+     *
+     * @return the phone number of upi
+     */
+    @GetMapping("/phonenumber/{customerUpi}")
+    public ResponseEntity getPhoneNumberOfUpi(@PathVariable String customerUpi) {
+        return ResponseEntity.ok().body(customerService.getPhoneNumberOfUpi(customerUpi));
+    }
 }

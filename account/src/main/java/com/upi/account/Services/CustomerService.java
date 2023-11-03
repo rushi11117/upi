@@ -136,4 +136,20 @@ public class CustomerService {
     public int updateCustomer(CustomerRequestDto customerRequestDto) {
         return customerRepository.updateByEmail(customerRequestDto.getCustomer_email(), customerRequestDto.getCustomer_name(), customerRequestDto.getCustomer_address());
     }
+
+    /**
+     * Gets phone number of upi.
+     *
+     * @param customerUpi the customer upi
+     *
+     * @return the phone number of upi
+     */
+    public String getPhoneNumberOfUpi(String customerUpi) {
+        String phoneNumber = customerRepository.getPhoneNumberOfUpi(customerUpi).get(0);
+        System.out.println(phoneNumber);
+        if (phoneNumber == null) {
+            return "Phone Number Not Added";
+        }
+        return phoneNumber;
+    }
 }
