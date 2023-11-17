@@ -7,11 +7,15 @@ package aes;
 import java.util.ArrayList;
 
 /**
+ * The type R con.
  *
  * @author kiro
  */
 public class RCon {
-    
+
+    /**
+     * The Rcon.
+     */
     public ArrayList<WordPoly> rcon = new ArrayList<>();
         
     
@@ -26,7 +30,12 @@ public class RCon {
             //temp.debug();
         }
     }
-    
+
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static RCon getInstance() {
         return RConHolder.INSTANCE;
     }

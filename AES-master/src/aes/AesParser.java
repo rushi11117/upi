@@ -5,6 +5,7 @@
 package aes;
 
 /**
+ * The type Aes parser.
  *
  * @author kiro
  */
@@ -15,8 +16,9 @@ public class AesParser {
      * Each char is a unicode character of 16-bit, so each block contains 8
      * characters. Adds padding if necessary.
      *
-     * @param str
-     * @return
+     * @param str the str
+     *
+     * @return state [ ]
      */
     public static State[] getStateBlocks(String str) {
         str = str.trim();
@@ -39,7 +41,8 @@ public class AesParser {
      * represents a word.
      *
      * @param str the string
-     * @return
+     *
+     * @return state from text
      */
     public static State getStateFromText(String str) {
         State result = new State();
@@ -52,9 +55,10 @@ public class AesParser {
     /**
      * Creates a word (32 bit) from 2 characters (16 bit each)
      *
-     * @param ch1
-     * @param ch2
-     * @return
+     * @param ch1 the ch 1
+     * @param ch2 the ch 2
+     *
+     * @return word poly
      */
     public static WordPoly charsToWord(char ch1, char ch2) {
         int c1 = (int) ch1;
@@ -68,8 +72,9 @@ public class AesParser {
     /**
      * Creates a 2 character (16 bit each) array from a word (32 bit)
      *
-     * @param word
-     * @return
+     * @param word the word
+     *
+     * @return char [ ]
      */
     public static char[] wordToString(WordPoly word) {
         char[] result = {
@@ -80,8 +85,10 @@ public class AesParser {
 
     /**
      * Creates a String representation (Unicode) from an array of States
-     * @param states
-     * @return 
+     *
+     * @param states the states
+     *
+     * @return string from state
      */
     public static String getStringFromState(State[] states) {
         String result = "";

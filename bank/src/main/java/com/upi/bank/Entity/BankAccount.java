@@ -1,5 +1,6 @@
 package com.upi.bank.Entity;
 
+import com.upi.bank.Enums.AccountLockStatus;
 import com.upi.bank.Enums.AccountType;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -31,6 +32,11 @@ public class BankAccount {
 
     @Column(name = "balance" ,columnDefinition = "double")
     private Double balance;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "lockflag" ,columnDefinition = "enum('UNLOCKED', 'LOCKED') default 'UNLOCKED'")
+    private AccountLockStatus lockflag = AccountLockStatus.UNLOCKED;
+
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

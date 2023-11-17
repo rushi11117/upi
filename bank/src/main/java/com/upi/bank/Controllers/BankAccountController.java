@@ -88,10 +88,42 @@ public class BankAccountController {
      */
     @PutMapping("/setbalance/{customerIdentifier}/{flag}/{ammount}")
     public ResponseEntity setAccountBalanceNB(@PathVariable String customerIdentifier, @PathVariable String flag, @PathVariable Long ammount) {
+        System.out.println("ECES");
         Boolean res = bankAccountService.setAccountBalanceNB(customerIdentifier, ammount, flag);
         return ResponseEntity.ok().body(res);
     }
 
+    /**
+     * Lock banktransactions response entity.
+     *
+     * @param customerIdentifier the customer identifier
+     *
+     * @return the response entity
+     */
+    @PutMapping("/lockbanktransactions/{customerIdentifier}")
+    public ResponseEntity lockBanktransactions(@PathVariable String customerIdentifier) {
+        System.out.println("lockBanktransactionsController");
+        return ResponseEntity.ok().body(bankAccountService.lockBanktransactions(customerIdentifier));
+    }
+
+    /**
+     * Unlock banktransactions response entity.
+     *
+     * @param customerIdentifier the customer identifier
+     *
+     * @return the response entity
+     */
+    @PutMapping("/unlockbanktransactions/{customerIdentifier}")
+    public ResponseEntity unlockBanktransactions(@PathVariable String customerIdentifier) {
+        System.out.println("lockBanktransactionsController");
+        return ResponseEntity.ok().body(bankAccountService.unlockBanktransactions(customerIdentifier));
+    }
+
+    /**
+     * Test mapping string.
+     *
+     * @return the string
+     */
     @PutMapping("/test")
     public String testMapping() {
         System.out.println("Hello");

@@ -3,8 +3,8 @@ package com.upi.bank.Services;
 import com.upi.bank.Dto.BankAccountDto;
 import com.upi.bank.Dto.DtoServices.BankAccountDtoServices;
 import com.upi.bank.Entity.BankAccount;
-import com.upi.bank.Entity.Transaction;
 import com.upi.bank.Enums.AccountLimitTearms;
+import com.upi.bank.Enums.AccountLockStatus;
 import com.upi.bank.Enums.ServerUri;
 import com.upi.bank.Repositories.BankAccountRepository;
 import com.upi.bank.Repositories.BankCustomerRepository;
@@ -39,7 +39,6 @@ public class BankAccountService {
 
     @Autowired
     private final WebClient webClient;
-
 
     /**
      * Instantiates a new Bank account service.
@@ -148,21 +147,71 @@ public class BankAccountService {
      * @return the account balance nb
      */
     public boolean setAccountBalanceNB(String customerIdentifier, Long ammount, String flag) {
-        List<BankAccount> bankAccount = bankAccountRepository.getBankAccountByCustomerIdentifier(bankCustomerRepository.findAllByColumn(customerIdentifier, "email"));
         System.out.println(customerIdentifier);
+        List<BankAccount> bankAccount = bankAccountRepository.getBankAccountByCustomerIdentifier(bankCustomerRepository.findAllByColumn(customerIdentifier, "email"));
         BankAccount reciversBankAccount;
-        BankAccount sendersBankAccount;
         if (flag.equals("DEDUCT")) {
             bankAccount.get(0).setBalance(bankAccount.get(0).getBalance() - ammount);
             reciversBankAccount = bankAccount.get(0);
             bankAccountRepository.save(reciversBankAccount);
             return true;
         } else if (flag.equals("CREDIT")) {
-            bankAccount.get(0) .setBalance(bankAccount.get(0).getBalance() + ammount);
+            bankAccount.get(0).setBalance(bankAccount.get(0).getBalance() + ammount);
             reciversBankAccount = bankAccount.get(0);
             bankAccountRepository.save(reciversBankAccount);
             return true;
         }
         return false;
     }
+
+    /**
+     * Lock banktransactions boolean.
+     *
+     * @param customerIdentifier the customer identifier
+     *
+     * @return the boolean
+     */
+    public Boolean lockBanktransactions(String customerIdentifier) {
+        System.out.println("lockBanktransactionsServices");
+        List<BankAccount> bankAccount = bankAccountRepository.getBankAccountByCustomerIdentifier(bankCustomerRepository.findAllByColumn(customerIdentifier, "email"));
+        if (bankAccount.get(0) == null) {
+            return false;
+        } else {
+            bankAccount.get(0).setLockflag(AccountLockStatus.LOCKED);
+            bankAccountRepository.save(bankAccount.get(0));
+            return true;
+        }
+    }
+
+    /**
+     * Unlock banktransactions boolean.
+     *
+     * @param customerIdentifier the customer identifier
+     *
+     * @return the boolean
+     */
+    public Boolean unlockBanktransactions(String customerIdentifier) {
+        System.out.println("lockBanktransactionsServices");
+        List<BankAccount> bankAccount = bankAccountRepository.getBankAccountByCustomerIdentifier(bankCustomerRepository.findAllByColumn(customerIdentifier, "email"));
+        if (bankAccount.get(0) == null) {
+            return false;
+        } else {
+            if (setAccountBalanceNB(customerIdentifier, getAmmountFromWallet(customerIdentifier), "CREDIT"))
+                bankAccount.get(0).setLockflag(AccountLockStatus.UNLOCKED);
+            bankAccountRepository.save(bankAccount.get(0));
+            return true;
+        }
+    }
+
+    /**
+     * Gets ammount from wallet.
+     *
+     * @param customerIdentifier the customer identifier
+     *
+     * @return the ammount from wallet
+     */
+    public Long getAmmountFromWallet(String customerIdentifier) {
+        return 500L;
+    }
+
 }

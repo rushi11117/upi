@@ -5,6 +5,7 @@
 package aes;
 
 /**
+ * The type Key.
  *
  * @author kiro
  */
@@ -17,11 +18,12 @@ public class Key {
 
     /**
      * Expand the cipher key from a String. <br />
-     *
+     * <p>
      * 8 char means 128 bit key <br /> 12 char means 192 bit key <br /> 16 char
      * means 256 bit key <br />
      *
-     * @param cipherKey
+     * @param cipherKey  the cipher key
+     * @param unicodeKey the unicode key
      */
     public Key(String cipherKey, boolean unicodeKey) {
         setRoundNumber(cipherKey.length());
@@ -61,6 +63,11 @@ public class Key {
         }
     }
 
+    /**
+     * Gets nr.
+     *
+     * @return the nr
+     */
     public int getNr() {
         return Nr;
     }
@@ -68,8 +75,9 @@ public class Key {
     /**
      * Get the key for specific round. Round 0 is the original cipher key.
      *
-     * @param round
-     * @return
+     * @param round the round
+     *
+     * @return round key
      */
     public State getRoundKey(int round) {
         State result = new State();

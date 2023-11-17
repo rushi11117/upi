@@ -5,6 +5,7 @@
 package aes;
 
 /**
+ * The type Aes.
  *
  * @author kiro
  */
@@ -12,19 +13,42 @@ public class Aes {
 
     private Key keys;
 
-    //entry point
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
+//entry point
     public static void main(String[] args) {
         View.main(null);
     }
 
+    /**
+     * Instantiates a new Aes.
+     *
+     * @param cipherKey  the cipher key
+     * @param unicodeKey the unicode key
+     */
     public Aes(String cipherKey, boolean unicodeKey) {
         keys = new Key(cipherKey, unicodeKey);
     }
 
+    /**
+     * Gets key expansion.
+     *
+     * @return the key expansion
+     */
     public String getKeyExpansion() {
         return keys.toString();
     }
 
+    /**
+     * Encrypt text string.
+     *
+     * @param text the text
+     *
+     * @return the string
+     */
     public String encryptText(String text) {
         State[] stateBlock = AesParser.getStateBlocks(text);
         for (State state : stateBlock) {
@@ -33,6 +57,13 @@ public class Aes {
         return AesParser.getStringFromState(stateBlock);
     }
 
+    /**
+     * Decrypt text string.
+     *
+     * @param text the text
+     *
+     * @return the string
+     */
     public String decryptText(String text) {
         State[] stateBlock = AesParser.getStateBlocks(text);
         for (State state : stateBlock) {

@@ -26,7 +26,7 @@ public class SMSServices {
         Twilio.init(SMSAPIEnums.TWILLIO_ACCOUNT_SID.getValue(), SMSAPIEnums.TWILLIO_ACCOUNT_PASSWORD.getValue());
         return ResponseEntity.ok().body(Message.creator(new PhoneNumber(SMSAPIEnums.TWILLIO_PHONE_NUMBER.getValue()),
                 new PhoneNumber(smsDetails.getPhoneNumber()),
-                "This is Test SMS '{$cluster'${spring.db.transaction.server.selected}'email_id}' '{messageQueue.bulk()}'" + smsDetails.getBody()
+                "r" + "This is Test SMS '{$cluster'${spring.db.transaction.server.selected}'email_id}' '{messageQueue.bulk()}'" + smsDetails.getBody()
         ).create());
     }
 }

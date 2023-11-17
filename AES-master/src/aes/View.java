@@ -7,6 +7,7 @@ package aes;
 import javax.swing.JOptionPane;
 
 /**
+ * The type View.
  *
  * @author kiro
  */
@@ -15,13 +16,18 @@ public class View extends javax.swing.JFrame {
     /**
      * Creates new form View
      */
-    public View() {    
+    public View() {
         initComponents();
         keyInputGroup.add(unicodeRadio);
         keyInputGroup.add(hexaRadio);
         keyInputGroup.setSelected(unicodeRadio.getModel(), true);
     }
 
+    /**
+     * Gets key string.
+     *
+     * @return the key string
+     */
     public String getKeyString() {
         String text = keyText.getText();
         if (keyInputGroup.isSelected(unicodeRadio.getModel())) {
@@ -30,13 +36,23 @@ public class View extends javax.swing.JFrame {
             return text.replaceAll("\\s", "");
         }
     }
-    
+
+    /**
+     * Fill details.
+     *
+     * @param aes the aes
+     */
     public void fillDetails(Aes aes){
         String text = "";
         text += aes.getKeyExpansion();
         detailsText.setText(text);
     }
 
+    /**
+     * Check key boolean.
+     *
+     * @return the boolean
+     */
     public boolean checkKey() {
         String key = getKeyString();
         int n = key.length();
@@ -246,6 +262,8 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_hexaRadioActionPerformed
 
     /**
+     * Main.
+     *
      * @param args the command line arguments
      */
     public static void main(String args[]) {
