@@ -130,6 +130,13 @@ public class BankCustomerController {
         return bankCustomerServices.getAllBankAccounts();
     }
 
+    /**
+     * Gets my upi.
+     *
+     * @param customerIdentifier the customer identifier
+     *
+     * @return the my upi
+     */
     @GetMapping("/myupi/{customerIdentifier}")
     public Mono<ResponseEntity<String>> getMyUpi(@PathVariable String customerIdentifier) {
         return bankAccountService.generateUpiForBankAccount(customerIdentifier);

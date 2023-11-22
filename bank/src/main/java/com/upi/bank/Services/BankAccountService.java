@@ -6,6 +6,7 @@ import com.upi.bank.Entity.BankAccount;
 import com.upi.bank.Enums.AccountLimitTearms;
 import com.upi.bank.Enums.AccountLockStatus;
 import com.upi.bank.Enums.ServerUri;
+import com.upi.bank.Exceptions.OfflineTransactionSessionAlreadyRunningException;
 import com.upi.bank.Repositories.BankAccountRepository;
 import com.upi.bank.Repositories.BankCustomerRepository;
 import com.upi.bank.Utils.ObjectCheck;
@@ -40,6 +41,7 @@ public class BankAccountService {
     @Autowired
     private final WebClient webClient;
 
+
     /**
      * Instantiates a new Bank account service.
      *
@@ -55,7 +57,7 @@ public class BankAccountService {
             BankAccountDtoServices bankAccountDtoServices,
             WebClient webClient,
             BankCustomerServices bankCustomerServices
-    ) {
+            ) {
         this.bankAccountRepository = bankAccountRepository;
         this.bankCustomerRepository = bankCustomerRepository;
         this.bankAccountDtoServices = bankAccountDtoServices;
@@ -170,17 +172,27 @@ public class BankAccountService {
      * @param customerIdentifier the customer identifier
      *
      * @return the boolean
+     * @throws OfflineTransactionSessionAlreadyRunningException the offline transaction session already running exception
      */
-    public Boolean lockBanktransactions(String customerIdentifier) {
+    public Boolean lockBanktransactions(String customerIdentifier) throws OfflineTransactionSessionAlreadyRunningException {
         System.out.println("lockBanktransactionsServices");
         List<BankAccount> bankAccount = bankAccountRepository.getBankAccountByCustomerIdentifier(bankCustomerRepository.findAllByColumn(customerIdentifier, "email"));
+        if (bankAccount.get(0).getLockflag() == AccountLockStatus.LOCKED) {
+            throw new OfflineTransactionSessionAlreadyRunningException(customerIdentifier, bankAccount.get(0).getUpdatedAt());
+        }
         if (bankAccount.get(0) == null) {
             return false;
-        } else {
-            bankAccount.get(0).setLockflag(AccountLockStatus.LOCKED);
-            bankAccountRepository.save(bankAccount.get(0));
-            return true;
         }
+
+        bankAccount.get(0).setLockflag(AccountLockStatus.LOCKED);
+        bankAccountRepository.save(bankAccount.get(0));
+        return true;
+
+//        else {
+//        bankAccount.get(0).setLockflag(AccountLockStatus.LOCKED);
+//        bankAccountRepository.save(bankAccount.get(0));
+//        return true;
+//        }
     }
 
     /**
@@ -214,4 +226,14 @@ public class BankAccountService {
         return 500L;
     }
 
+    /**
+     * Gets flag status.
+     *
+     * @param customerIdentifier the customer identifier
+     *
+     * @return the flag status
+     */
+    public AccountLockStatus getlockFlagStatus(String customerIdentifier) {
+        return bankAccountRepository.findById(bankCustomerRepository.findAllByColumn(customerIdentifier, "email").getCustomerId()).get().getLockflag();
+    }
 }

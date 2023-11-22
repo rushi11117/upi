@@ -2,6 +2,7 @@ package com.upi.bank.Controllers;
 
 import com.upi.bank.Dto.BankAccountDto;
 import com.upi.bank.Entity.BankAccount;
+import com.upi.bank.Exceptions.OfflineTransactionSessionAlreadyRunningException;
 import com.upi.bank.Services.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -99,9 +100,10 @@ public class BankAccountController {
      * @param customerIdentifier the customer identifier
      *
      * @return the response entity
+     * @throws OfflineTransactionSessionAlreadyRunningException the offline transaction session already running exception
      */
     @PutMapping("/lockbanktransactions/{customerIdentifier}")
-    public ResponseEntity lockBanktransactions(@PathVariable String customerIdentifier) {
+    public ResponseEntity lockBanktransactions(@PathVariable String customerIdentifier) throws OfflineTransactionSessionAlreadyRunningException {
         System.out.println("lockBanktransactionsController");
         return ResponseEntity.ok().body(bankAccountService.lockBanktransactions(customerIdentifier));
     }
@@ -117,6 +119,18 @@ public class BankAccountController {
     public ResponseEntity unlockBanktransactions(@PathVariable String customerIdentifier) {
         System.out.println("lockBanktransactionsController");
         return ResponseEntity.ok().body(bankAccountService.unlockBanktransactions(customerIdentifier));
+    }
+
+    /**
+     * Instantiates a new Getlock flag status.
+     *
+     * @param customerIdentifier the customer identifier
+     *
+     * @return the flag status
+     */
+    @GetMapping("/getlockflagstatus/{customerIdentifier}")
+    public ResponseEntity getlockFlagStatus(@PathVariable String customerIdentifier) {
+        return ResponseEntity.ok().body(bankAccountService.getlockFlagStatus(customerIdentifier));
     }
 
     /**
