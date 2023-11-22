@@ -13,10 +13,13 @@ package com.upi.transactionmanager.Entity;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 /**
  * The type Transaction message raw.
  */
+
+@Component
 @Data
 @Setter
 @Getter

@@ -4,10 +4,13 @@ import com.upi.transactionmanager.Entity.NotificationDetails;
 import com.upi.transactionmanager.Entity.TransactionBuffer;
 import com.upi.transactionmanager.Utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * The type Sms notification services.
  */
+
+@Service
 public class SMSNotificationServices {
 
     @Autowired

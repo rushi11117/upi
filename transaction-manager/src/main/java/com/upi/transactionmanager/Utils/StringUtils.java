@@ -1,10 +1,13 @@
 package com.upi.transactionmanager.Utils;
 
 import com.upi.transactionmanager.Entity.TransactionBuffer;
+import org.springframework.stereotype.Component;
 
 /**
  * The type String utils.
  */
+
+@Component
 public class StringUtils {
 
     /**

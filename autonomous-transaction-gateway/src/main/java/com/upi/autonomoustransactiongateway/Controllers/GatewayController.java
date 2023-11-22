@@ -29,7 +29,8 @@ public class GatewayController {
      */
     public GatewayController(WebClient webClient,
 //            ServerUriEnums serverUriEnums
-                             GatewayServices gatewayServices) {
+                             GatewayServices gatewayServices
+    ) {
         this.webClient = webClient;
 //        this.serverUriEnums = serverUriEnums;
         this.gatewayServices = gatewayServices;
@@ -61,8 +62,17 @@ public class GatewayController {
         return gatewayServices.endOfflineTransactionSession(customerIdentifier);
     }
 
-    @GetMapping("/getlockflagstatus")
-    public AccountLockStatus getlockFlagStatus(String customerIdentifier) {
-
+    /**
+     * Gets flag status.
+     *
+     * @param customerIdentifier the customer identifier
+     *
+     * @return the flag status
+     */
+    @GetMapping("/getlockflagstatus/{customerIdentifier}")
+    public AccountLockStatus getlockFlagStatus(@PathVariable String customerIdentifier) {
+        return AccountLockStatus.LOCKED;
     }
+
+
 }

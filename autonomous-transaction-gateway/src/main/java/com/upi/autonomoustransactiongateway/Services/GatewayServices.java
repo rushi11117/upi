@@ -52,11 +52,11 @@ public class GatewayServices {
      */
     public boolean lockTransactionsOfUsers(String customerIdentifier) {
         System.out.println("lockTransactionsOfUsers");
-        return webClient.put()
+        return Boolean.TRUE.equals(webClient.put()
                 .uri("http://localhost:8082/bankaccount/lockbanktransactions/{customerIdentifier}", customerIdentifier)
                 .retrieve()
                 .bodyToMono(Boolean.class)
-                .block();
+                .block());
     }
 
     /**
@@ -79,10 +79,10 @@ public class GatewayServices {
      */
     public boolean unlockTransactionsOfUsers(String customerIdentifier) {
         System.out.println("lockTransactionsOfUsers");
-        return webClient.put()
+        return Boolean.TRUE.equals(webClient.put()
                 .uri("http://localhost:8082/bankaccount/unlockbanktransactions/{customerIdentifier}", customerIdentifier)
                 .retrieve()
                 .bodyToMono(Boolean.class)
-                .block();
+                .block());
     }
 }
